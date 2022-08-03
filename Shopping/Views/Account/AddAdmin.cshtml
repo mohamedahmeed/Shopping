@@ -1,0 +1,22 @@
+﻿<form method="post"> 
+    <label>Users</label>
+    <select name="UserName" class="form-control">
+       @foreach (var item in @ViewBag.user)
+      {
+         <option  value="@item">@item</option>  
+      }
+          
+       
+    </select>
+
+      <label>Role</label>
+    <select name="RoleName" class="form-control">
+       @foreach (var item in @ViewBag.role)
+      {
+         <option value="@item">@item</option>  
+      }
+    </select>
+     <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+</form>

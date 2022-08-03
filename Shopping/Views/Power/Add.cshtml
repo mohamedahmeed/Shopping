@@ -1,0 +1,76 @@
+﻿@model Shopping.DTO.PowerDTO
+
+@{
+    ViewData["Title"] = "Add";
+    SelectList items = new SelectList(ViewBag.user, "Id", "userName");
+}
+
+<h1>Add</h1>
+
+<h4>PowerDTO</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div hidden class="form-group">
+                <label asp-for="powerId" class="control-label"></label>
+                <input asp-for="powerId" class="form-control" />
+                <span asp-validation-for="powerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="pageName" class="control-label"></label>
+               <select name="pageName" class="form-control">
+       @foreach (var item in @ViewBag.page)
+      {
+         <option  value="@item.Name">@item.Name</option>  
+      }
+          
+       
+    </select>
+                <span asp-validation-for="pageName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="canAdd" /> @Html.DisplayNameFor(model => model.canAdd)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="canDelete" /> @Html.DisplayNameFor(model => model.canDelete)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="canUpdate" /> @Html.DisplayNameFor(model => model.canUpdate)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="canSee" /> @Html.DisplayNameFor(model => model.canSee)
+                </label>
+            </div>
+            <div class="form-group">
+               <label>Users</label>
+    <select name="webSiteUserID" class="form-control">
+       @foreach (var item in @ViewBag.user)
+      {
+         <option  value="@item.Id">@item</option>  
+      }
+
+    </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Shopping.DTO.PowerDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Add">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.pageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.canAdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.canDelete)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.canUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.canSee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user.UserName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.pageName)
+            </td>
+            <td>
+               @if(@item.canAdd){
+                    <input type="checkbox" name="canAdd" checked>
+                }
+                else{
+                    <input type="checkbox" name="canAdd">
+                }
+            </td>
+            <td>
+               @if(@item.canDelete){
+                    <input type="checkbox" name="canDelete" checked>
+                }
+                else{
+                    <input type="checkbox" name="canDelete">
+                }
+            </td>
+            <td>
+               @if(@item.canUpdate){
+                    <input type="checkbox" name="canUpdate" checked>
+                }
+                else{
+                    <input type="checkbox" name="canUpdate">
+                }
+            </td>
+            <td>
+               @if(@item.canSee){
+                    <input type="checkbox" name="canSee" checked>
+                }
+                else{
+                    <input type="checkbox" name="canSee">
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user.UserName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.powerId }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
