@@ -43,9 +43,9 @@ namespace Shopping.Models
             var f = context.HttpContext.User.IsInRole("Admin");
             if(has == false&&f)
             {
-                context.Result = new JsonResult("You shall not Pass ,You donot have permission");
-               
-}
+                //context.Result = new JsonResult("You shall not Pass ,You donot have permission");
+                context.Result = new RedirectResult("~/Home/pass");
+            }
         }
     }
     public enum PermissionEnum

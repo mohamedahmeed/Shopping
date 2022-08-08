@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class PowerController : Controller
     {
         private readonly RoleManager<IdentityRole> role;
@@ -24,6 +24,7 @@ namespace Shopping.Controllers
             this.services = services;
             this.manager = manager;
         }
+        [AutoValidateAntiforgeryToken]
         public IActionResult Index()
         {
         List<PowerDTO> power=services.GetAll();
@@ -41,7 +42,8 @@ namespace Shopping.Controllers
             
             var users = await manager.GetUsersInRoleAsync("Admin");
             ViewBag.user = users;
-          var data=  typeof(PowerController).Assembly.GetTypes().Where(c => c.IsClass && c.Name.Contains("Controller")).Select(c => new TempPropDto
+          var data=  typeof(PowerController).Assembly.GetTypes()
+                .Where(c => c.IsClass && c.Name.Contains("Controller")).Select(c => new TempPropDto
             {
                 Name = c.Name.Replace("Controller",""),
 

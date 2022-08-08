@@ -7,6 +7,7 @@ namespace Shopping.Models
     public class Government
     {
         public Guid Id { get; set; }
+        [UniqueGovernment]
         public string Name { get; set; }
         public DateTime date { get; set; }= DateTime.Now;
         public bool isactive { get; set; }

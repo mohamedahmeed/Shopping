@@ -8,7 +8,7 @@ namespace Shopping.DTO
     {
         public Guid Id { get; set; }
         [Required]
-        [UniqueGovernmentAttripute]
+        [UniqueGovernment]
         public string Name { get; set; }
         [Required]
 

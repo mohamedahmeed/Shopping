@@ -5,7 +5,7 @@ namespace Shopping.DTO
 {
     public class RegisterDTO
     {
-        [Required][UniqueUserAttripute]
+        [Required][UniqueUser]
         public string UserName { get; set; }
         [Required][DataType(DataType.EmailAddress)]
         public string Email { get; set; }

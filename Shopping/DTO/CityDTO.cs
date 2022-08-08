@@ -7,7 +7,7 @@ namespace Shopping.DTO
     public class CityDTO
     {
         public Guid Id { get; set; }
-        [Required][UniqueCityAttripute]
+        [Required][UniqueCity]
         public string cityName { get; set; }
         
         public DateTime date { get; set; } = DateTime.Now;

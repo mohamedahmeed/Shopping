@@ -33,8 +33,13 @@ namespace Shopping.Controllers
         [HttpPost]
         public IActionResult Add(GovernmentDTO government)
         {
-            services.insert(government);
-            return RedirectToAction("index");
+            if (ModelState.IsValid)
+            {
+                services.insert(government);
+                return RedirectToAction("index");
+            }
+            else return View(government);
+            
         }
         [Power(PermissionEnum.Edit)]
         public IActionResult Edit(Guid id)
@@ -46,8 +51,13 @@ namespace Shopping.Controllers
         [HttpPost]
         public IActionResult Edit(Guid id,GovernmentDTO government)
         {
-            services.update(id, government);
-            return RedirectToAction("index");
+            if (ModelState.IsValid)
+            {
+                services.update(id, government);
+                return RedirectToAction("index");
+            }
+            else return View(government);
+          
         }
     }
 }

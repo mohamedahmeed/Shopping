@@ -42,8 +42,13 @@ namespace Shopping.Controllers
         [HttpPost]
         public IActionResult Add(CityDTO city)
         {
-            services.insert(city);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                services.insert(city);
+                return RedirectToAction("Index");
+            }
+            return View(city);
+            
         }
 
         [Power(PermissionEnum.Edit)]
@@ -59,9 +64,13 @@ namespace Shopping.Controllers
 
         [HttpPost]
         public  IActionResult Edit(Guid id,CityDTO city)
-        { 
-            services.update(id, city);
-            return RedirectToAction("Index");
+        {
+            if (ModelState.IsValid)
+            {
+                services.update(id, city);
+                return RedirectToAction("Index");
+            }
+            return View(city);
 
         }
     }

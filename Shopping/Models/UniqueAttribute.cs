@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Shopping.Models
 {
-    public class UniqueUserAttripute:ValidationAttribute
+    public class UniqueUserAttribute:ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -19,7 +19,7 @@ namespace Shopping.Models
     }
 
 
-    public class UniqueCityAttripute : ValidationAttribute
+    public class UniqueCityAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -35,18 +35,18 @@ namespace Shopping.Models
         }
     }
 
-    public class UniqueGovernmentAttripute : ValidationAttribute
+    public class UniqueGovernmentAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Shipping dp = new Shipping();
             Government user = dp.governments.FirstOrDefault(x => x.Name == value.ToString());
             if (user == null)
-                return ValidationResult.Success;
-            else
             {
-                return new ValidationResult("Name Already Exists");
+                return ValidationResult.Success;
+
             }
+                return new ValidationResult("Name Already Exists");
 
         }
     }

@@ -62,6 +62,7 @@ namespace Shopping.Controllers
         {
             var government= gover.GetAll();
             ViewBag.gov = government;
+
             return View();
         }
         [HttpPost]
