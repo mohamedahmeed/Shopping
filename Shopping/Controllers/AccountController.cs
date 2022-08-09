@@ -39,7 +39,7 @@ namespace Shopping.Controllers
                 if (result.Succeeded)
                 {
                     await signIn.SignInAsync(identity,false);
-                    return RedirectToAction("Index", "Power");
+                    return RedirectToAction("Index", "order");
 
                 }
                 else

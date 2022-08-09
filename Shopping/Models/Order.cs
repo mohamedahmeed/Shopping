@@ -10,38 +10,38 @@ namespace Shopping.Models
     public class Order
     {
         public Guid Id { get; set; }
-        public string ProductName { get; set; }
-        public int ProductWeight { get; set; }
+      
         public string clientName { get; set; }
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        //public int clientID { get; set; }
+       
         public string clientphone1 { get; set; }
         public string clientphone2 { get; set; }
         public string Email { get; set; }
-       // public string Government { get; set; }
-        public string City { get; set; }
+     
+      
         public string Adress { get; set; }
       
-       
-        public string ShippingType { get; set; }
-        public string paymentType { get; set; }
         [ForeignKey("user")]
         public string UserId { get; set; }
+        public bool Tovillage { get; set; }
 
         public virtual AppUser user { get; set; }
 
-        [ForeignKey("Government")]
-        public Guid GovernmentId { get; set; }
+        [ForeignKey("city")]
+        public Guid cityId { get; set; }
         public states States { get; set; }
-        public int price { get; set; }
+        public virtual City city { get; set; }
+        public decimal price { get; set; }
 
+        //[ForeignKey("ShippingPrice")]
+        //public Guid  ShipPriceId { get; set; }
 
-        public virtual Government Government { get; set; }
+        //public virtual ShippingPrice ShippingPrice { get; set; }
 
+        [ForeignKey("ShippingTypes")]
+        public Guid ShippingTypesId { get; set; }
 
+        public virtual ShippingTypes ShippingTypes { get; set; }
 
-
-
-
+        public virtual List<Product> Products { get; set; }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shopping.Models;
 
 namespace Shopping.Migrations
 {
     [DbContext(typeof(Shipping))]
-    partial class ShippingModelSnapshot : ModelSnapshot
+    [Migration("20220808195021_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,11 +289,20 @@ namespace Shopping.Migrations
                     b.Property<string>("Adress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("GovernmentId")
+                    b.Property<Guid>("GovernmentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ShippingPriceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ShippingType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ShippingTypesId")
                         .HasColumnType("uniqueidentifier");
@@ -299,14 +310,8 @@ namespace Shopping.Migrations
                     b.Property<int>("States")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Tovillage")
-                        .HasColumnType("bit");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("cityId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("clientName")
                         .HasColumnType("nvarchar(max)");
@@ -317,19 +322,20 @@ namespace Shopping.Migrations
                     b.Property<string>("clientphone2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("paymentType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GovernmentId");
 
+                    b.HasIndex("ShippingPriceId")
+                        .IsUnique();
+
                     b.HasIndex("ShippingTypesId")
                         .IsUnique();
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("cityId");
 
                     b.ToTable("Order");
                 });
@@ -387,7 +393,7 @@ namespace Shopping.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("products");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("Shopping.Models.ShippingPrice", b =>
@@ -410,7 +416,7 @@ namespace Shopping.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingPrices");
+                    b.ToTable("ShippingPrice");
                 });
 
             modelBuilder.Entity("Shopping.Models.ShippingTypes", b =>
@@ -494,9 +500,17 @@ namespace Shopping.Migrations
 
             modelBuilder.Entity("Shopping.Models.Order", b =>
                 {
-                    b.HasOne("Shopping.Models.Government", null)
+                    b.HasOne("Shopping.Models.Government", "Government")
                         .WithMany("Orders")
-                        .HasForeignKey("GovernmentId");
+                        .HasForeignKey("GovernmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Shopping.Models.ShippingPrice", "ShippingPrice")
+                        .WithOne("Order")
+                        .HasForeignKey("Shopping.Models.Order", "ShippingPriceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Shopping.Models.ShippingTypes", "ShippingTypes")
                         .WithOne("Order")
@@ -508,13 +522,9 @@ namespace Shopping.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
 
-                    b.HasOne("Shopping.Models.City", "city")
-                        .WithMany()
-                        .HasForeignKey("cityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Government");
 
-                    b.Navigation("city");
+                    b.Navigation("ShippingPrice");
 
                     b.Navigation("ShippingTypes");
 
@@ -558,6 +568,11 @@ namespace Shopping.Migrations
             modelBuilder.Entity("Shopping.Models.Order", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Shopping.Models.ShippingPrice", b =>
+                {
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Shopping.Models.ShippingTypes", b =>

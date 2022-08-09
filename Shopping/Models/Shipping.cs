@@ -24,7 +24,13 @@ namespace Shopping.Models
         public DbSet<Government> governments { get; set; }
         public DbSet<City> cities { get; set; }
         public DbSet<Powers> powers { get; set; }
-      
+        public DbSet<ShippingPrice> ShippingPrices { get; set; }
+        public DbSet<ShippingTypes> ShippingTypes { get; set; }
+        public DbSet<Product> products { get; set; }
+
+
+
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -43,7 +44,14 @@ namespace Shopping
             services.AddScoped<IReposaitoryCity<CityDTO>, CityServices>();
             services.AddScoped<IReposaitory<PowerDTO>, PowerServices>();
             services.AddScoped<IReposaitory<OrderDTO>, OrderServices>();
+            services.AddScoped<IReposaitory<ShippingPriceDTO>, ShippingPriceServices>();
+            services.AddScoped<IReposaitory<ShippingTypesDTO>, ShippingTypesServices>();
+            services.AddScoped<IReposaitory<ProductDTO>, ProductServices>();
+
+
             services.AddScoped<PowerServices>();
+            services.AddScoped<ProductServices>();
+
             services.AddScoped<OrderServices>();
 
 
@@ -66,13 +74,18 @@ namespace Shopping
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            //app.Use((context, next) =>
+            //{
+            //    context.Request.EnableBuffering();
+            //    return next();
+            //});
+
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-           
-
+         
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

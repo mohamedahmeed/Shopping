@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Shopping.DTO;
 using Shopping.Models;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Shopping.Services
@@ -17,6 +18,13 @@ namespace Shopping.Services
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<IdentityRole, RoleDTO>().ReverseMap();
             CreateMap<ClaimsPrincipal, AppUser>().ReverseMap();
+            CreateMap<ShippingPrice, ShippingPriceDTO>().ReverseMap();
+            CreateMap<ShippingTypes, ShippingTypesDTO>().ReverseMap();
+            CreateMap<Product, ProductDTO>().ReverseMap();
+            //CreateMap<List<Product>,List< ProductDTO>>().ReverseMap();
+
+
+
 
 
 

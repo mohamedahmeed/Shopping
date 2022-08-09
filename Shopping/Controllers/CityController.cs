@@ -42,12 +42,10 @@ namespace Shopping.Controllers
         [HttpPost]
         public IActionResult Add(CityDTO city)
         {
-            if (ModelState.IsValid)
-            {
+            
                 services.insert(city);
                 return RedirectToAction("Index");
-            }
-            return View(city);
+           
             
         }
 
@@ -65,12 +63,12 @@ namespace Shopping.Controllers
         [HttpPost]
         public  IActionResult Edit(Guid id,CityDTO city)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 services.update(id, city);
                 return RedirectToAction("Index");
-            }
-            return View(city);
+            //}
+            //return View(city);
 
         }
     }

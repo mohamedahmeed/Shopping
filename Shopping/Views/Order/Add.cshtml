@@ -2,99 +2,201 @@
 
 @{
     ViewData["Title"] = "Add";
-    SelectList items = new SelectList(ViewBag.gov, "Id", "Name");
 }
 
-<h1>Add Order </h1>
+<h1>Add order</h1>
 
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+
+    
         <form asp-action="Add">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
             <div hidden class="form-group">
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductWeight" class="control-label"></label>
-                <input asp-for="ProductWeight" class="form-control" />
-                <span asp-validation-for="ProductWeight" class="text-danger"></span>
-            </div>
-           @* <div class="form-group">
-                <label asp-for="clientName" class="control-label"></label>
-                <input  asp-for="@User.Identity.Name" class="form-control" />
-                <span asp-validation-for="clientName" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
+            
+            <div class="form-group col-lg-4 p-4">
                 <label asp-for="clientphone1" class="control-label"></label>
                 <input asp-for="clientphone1" class="form-control" />
                 <span asp-validation-for="clientphone1" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-lg-4 p-4">
                 <label asp-for="clientphone2" class="control-label"></label>
                 <input asp-for="clientphone2" class="form-control" />
                 <span asp-validation-for="clientphone2" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-lg-4 p-4">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="GovernmentId" class="control-label">Government </label>
-                <Select asp-for="GovernmentId" onchange="displayCity(GovernmentId.value)" asp-items="items" class="form-control">
-                    <option disabled> Select Country</option>
-                </Select>
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="GovernmentId" class="control-label"></label>
+                <select onchange="getCity(GovernmentId.value)" asp-for=GovernmentId class="form-control" >
+                    @foreach (var item in @ViewBag.gov)
+                          {
+                              <option value="@item.Id">@item.Name</option>
+                          }
+                </select>
                 <span asp-validation-for="GovernmentId" class="text-danger"></span>
             </div>
-            <div id="city" style="display:none" class="form-group">
-                <label asp-for="City" class="control-label"></label>
-              <select name="City" class="form-control" id="SlelctCity">
-        
-                  
 
-              </select>
-                <span asp-validation-for="City" class="text-danger"></span>
+              <div style="display:none" id="city" class="form-group col-lg-4 p-4">
+                <label asp-for="cityId" class="control-label"></label>
+                <select asp-for="cityId" class="form-control">
+
+                </select>
+                <span asp-validation-for="cityId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+           @* <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>*@
+            <div class="form-group col-lg-4 p-4">
                 <label asp-for="Adress" class="control-label"></label>
                 <input asp-for="Adress" class="form-control" />
                 <span asp-validation-for="Adress" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ShippingType" class="control-label"></label>
-                <input asp-for="ShippingType" class="form-control" />
-                <span asp-validation-for="ShippingType" class="text-danger"></span>
+            
+        
+            
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="ShippingTypesId" class="control-label">نوع الشحن</label>
+                 <select asp-for="ShippingTypesId" class="form-control" >
+                    @foreach (var item in @ViewBag.ship)
+                          {
+                              <option value="@item.Id">@item.ShippingType</option>
+                          }
+                </select>
+                <span asp-validation-for="ShippingTypesId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="paymentType" class="control-label"></label>
-                <input asp-for="paymentType" class="form-control" />
-                <span asp-validation-for="paymentType" class="text-danger"></span>
+            <div class="form-group form-check col-lg-4 p-4">
+                <label  style="margin: 28px;" class="form-check-label">
+                   التوصيل للقريه
+                </label>
+                 <input style="margin: 35px -12px;" class="form-check-input" asp-for="Tovillage" />
+                
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+             <div id="frmItem">
+        <div class="modal-body">
+            <div class="row" for="sizes" >
+
+                <div class="col-4 p-3">
+                    <div class="form-group">
+                        <label  class="control-label">Product Name</label>
+                        <input id="ProductName" class="form-control" />
+                                       </div>
+                </div>
+                <div class="col-3 p-4">
+                    <div class="form-group">
+                        <label  class="control-label"> Product Weight</label>
+                        <input id="ProductWeight" type="number"  class="form-control" />
+                       
+                   </div>
+                </div>
+                <div class="col-2 p-4">
+                    <div class="form-group">
+                        <label  class="control-label">Amount</label>
+                        <input id="Amount" type="number"   class="form-control" />
+                      
+                   </div>
+                </div>
+
+                <div class="col-3 p-4">
+                    <div class="form-group" style="margin-top: 17%;">
+                        <a href="Javascript:void(0);" class="btn btn-success add-size">Add</a>
+                        <a href="Javascript:void(0);" class="btn btn-success remove-size btn-danger">Remove</a>
+                    </div>
+                </div>
+
+            </div>
+                </div>
+        </div>
+            
+</div>
+<div class="form-group">
+                <input type="button" onclick="save()" value="Create" class="btn btn-primary" />
             </div>
         </form>
-    </div>
-</div>
+    
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
-     function  displayCity(GovernmentId){
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   
+
+    <script type="text/javascript">
+    $(document).on('click', '.add-size', function(){
+        var size = $('div[for="sizes"]:first').clone();
+
+        size.find('.add-size').remove();
+        $('#frmItem .modal-body').append(size);
+    });
+
+    $(document).on('click', '.remove-size', function () {
+        $(this).closest('div[for="sizes"]').remove();
+    });
+    
+    </script>
+
+    <script>  
+
+   function save()
+    {
+         var products = [];
+       
+         
+            $("#frmItem .row").each(function () {
+                var row = $(this);
+                var product = {};
+                
+                product.productName = row.find("#ProductName").val();
+                product.productWeight = row.find("#ProductWeight").val();
+                product.amount = row.find("#Amount").val();
+                product.orderId=row.find("#Id").val();
+                products.push(product);
+            });
+              var order={
+                    id:$("#Id").val(),
+                    adress:$("#Adress").val(),
+                    clientphone1:$("#clientphone1").val(),
+                    clientphone2:$("#clientphone2").val(),
+                    Email:$("#Email").val(),
+                    governmentId:$("#GovernmentId").val(),
+                    ShippingTypesId:$("#ShippingTypesId").val(),
+                    cityId:"439F8E4A-FC2E-4B99-8B0F-08DA7385F22D",
+
+
+
+                    Products:products
+         };
+
+            console.log(order);
+          
+            $.ajax({
+                type: "POST",
+                url: "/Order/add",
+                data: { order:order},
+                success: function (r) {
+                    navigator.url("/product/index")
+                }
+            });
+    }
+    </script>
+
+}
+<script>
+    function  getCity(GovernmentId){
+         alert(GovernmentId)
             $("#city").css("display","block")
             $.ajax({
                 type: "POST",
@@ -111,7 +213,7 @@
                         
                         for (i = 0; i < responce.length; i++) {
                           Cities +=`
-                        <option  value="${responce[i].cityName}">${responce[i].cityName}</option>
+                        <option  value="${responce[i].id}">${responce[i].cityName}</option>
                         `
                            } 
                                                   console.log(Cities)
@@ -125,4 +227,3 @@
 });
         }
     </script>
-}

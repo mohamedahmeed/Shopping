@@ -20,14 +20,14 @@ namespace Shopping.Services
         }
         public List<OrderDTO> GetAll()
         {
-            List<Order> orders = dp.Order.Include(s=>s.Government).ToList();
+            List<Order> orders = dp.Order.Include(s=>s.city).ToList();
           List<OrderDTO> order= mapper.Map<List<OrderDTO>>(orders);
             return order;
         }
 
         public OrderDTO GetById(Guid id)
         {
-           Order order=dp.Order.Include(s => s.Government).FirstOrDefault(o=>o.Id==id);
+           Order order=dp.Order.Include(s => s.city).Include(s=>s.Products).FirstOrDefault(o=>o.Id==id);
             OrderDTO o=mapper.Map<OrderDTO>(order);
             return o;
         }
@@ -37,7 +37,7 @@ namespace Shopping.Services
             //Order order = dp.Order.FirstOrDefault(o => o.clientName==name);
             //OrderDTO o = mapper.Map<OrderDTO>(order);
             //return o;
-           List<Order> order = dp.Order.Include(c=>c.Government).Where(o => o.clientName == name).ToList();
+           List<Order> order = dp.Order.Include(c=>c.city).Where(o => o.clientName == name).ToList();
             List<OrderDTO> or = mapper.Map<List<OrderDTO>>(order);
             return or;
         }
@@ -59,7 +59,7 @@ namespace Shopping.Services
 
         public void Approved(Guid id)
         {
-            Order order = dp.Order.Include(s => s.Government).FirstOrDefault(o => o.Id == id);
+            Order order = dp.Order.Include(s => s.city).FirstOrDefault(o => o.Id == id);
             order.States = Enums.states.approved;
             dp.Update(order);
             dp.SaveChanges();
@@ -67,7 +67,7 @@ namespace Shopping.Services
         }
         public void Regicted(Guid id)
         {
-            Order order = dp.Order.Include(s => s.Government).FirstOrDefault(o => o.Id == id);
+            Order order = dp.Order.Include(s => s.city).FirstOrDefault(o => o.Id == id);
             order.States = Enums.states.Regicted;
             dp.Update(order);
             dp.SaveChanges();

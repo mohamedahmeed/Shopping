@@ -1,0 +1,104 @@
+﻿@model Shopping.DTO.ProductDTO
+
+<h4>Products</h4>
+<hr />
+<form >
+   
+        <div id="frmItem">
+        <div class="modal-body">
+            <div class="row" for="sizes" >
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="control-label"></label>
+                        <input asp-for="ProductName" class="form-control" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>                 </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="ProductWeight" class="control-label"></label>
+                        <input asp-for="ProductWeight"  class="form-control" />
+                       <span asp-validation-for="ProductWeight" class="text-danger"></span>
+                   </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="Amount" class="control-label"></label>
+                        <input asp-for="Amount"  class="form-control" />
+                      <span asp-validation-for="Amount" class="text-danger"></span>
+                   </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-group" style="margin-top: 17%;">
+                        <a href="Javascript:void(0);" class="btn btn-success add-size">Add</a>
+                        <a href="Javascript:void(0);" class="btn btn-success remove-size btn-danger">Remove</a>
+                    </div>
+                </div>
+
+            </div>
+                </div>
+        </div>
+        <div class="form-group">
+        <input type="button" onclick="save()" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+    $(document).on('click', '.add-size', function(){
+        var size = $('div[for="sizes"]:first').clone();
+
+        size.find('.add-size').remove();
+        $('#frmItem .modal-body').append(size);
+    });
+
+    $(document).on('click', '.remove-size', function () {
+        $(this).closest('div[for="sizes"]').remove();
+    });
+    
+    </script>
+    <script>  
+        function save()
+    {
+         var products = [];
+            $("#frmItem .row").each(function () {
+                var row = $(this);
+                var product = {};
+                product.productName = row.find("#ProductName").val();
+                product.productWeight = row.find("#ProductWeight").val();
+                product.amount = row.find("#Amount").val();
+                products.push(product);
+            });
+            
+            console.log(products);
+            //Send the JSON array to Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/product/add",
+                data: { products:products},
+                //contentType: "application/json; charset=utf-8",
+                //dataType: "json",
+                success: function (r) {
+                    navigator.url("/product/index")
+                }
+            });
+    }
+    </script>
+    <script>
+
+        @{   
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        }
+    
+    </script>
+    }
+    
+
+
