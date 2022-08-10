@@ -1,66 +1,112 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Shopping</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <Link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shopping</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+<html lang="en" class="loading">
 
-                          @if(User.Identity.IsAuthenticated){
-                            
-                              <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="order" asp-action="index">Order</a>
-                            </li>
-                          }
-                        @if (User.IsInRole("Admin"))
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Shipping System</title>
+    <link rel="apple-touch-icon" sizes="60x60" href="/app-assets/img/ico/apple-icon-60.html">
+    <link rel="apple-touch-icon" sizes="76x76" href="/app-assets/img/ico/apple-icon-76.html">
+    <link rel="apple-touch-icon" sizes="120x120" href="/app-assets/img/ico/apple-icon-120.html">
+    <link rel="apple-touch-icon" sizes="152x152" href="/app-assets/img/ico/apple-icon-152.html">
+    <link rel="shortcut icon" type="image/png" href="/app-assets/img/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/fonts/feather/style.min.css">
+  
+    <link rel="stylesheet" type="text/css" href="/app-assets/fonts/simple-line-icons/style.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/perfect-scrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/prism.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/chartist.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/app.css">
+      <Link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+</head>
+
+<body data-col="2-columns" class=" 2-columns ">
+    <div class="wrapper">
+        <div data-active-color="white" data-background-color="black" data-image="/app-assets/img/sidebar-bg/01.jpg" class="app-sidebar">
+            <div class="sidebar-header">
+                <div class="logo clearfix">
+                    <span class="logo-text float-left">
+                        <div class="logo-img"><img src="/app-assets/img/logo.png" alt="Convex Logo" /></div><span class="text align-middle">Ship System</span>
+                    </span>
+                    <a id="sidebarToggle" href="javascript:;" class="nav-toggle d-none d-sm-none d-md-none d-lg-block"></a>
+                    <a id="sidebarClose" href="javascript:;" class="nav-close d-block d-md-block d-lg-none d-xl-none">
+                    </a>
+                </div>
+            </div>
+            <div class="sidebar-content">
+                <div class="nav-container">
+                    <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
+
+                        @if (User.Identity.IsAuthenticated)
                         {
-                             <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Government" asp-action="Index">Government</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="City" asp-action="Index">City</a>
-                        </li>
-                             <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Add">Add Role</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="power" asp-action="Index">Power</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AddAdmin">Add Admin</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ShippingPrice" asp-action="Index">Shipping Price</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ShippingTypes" asp-action="Index">Shipping Types</a>
+                             <li class="nav-item ">
+                            <a  asp-controller="order" asp-action="index">
+                                <i class="icon-home"></i><span data-i18n=""class="menu-title bg-transparent">order</span>
+                            </a>
                         </li>
                         }
+                         @if (User.IsInRole("Admin"))
+                        {
+                            
+                             <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Government" asp-action="Index">
+
+                                Government</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="City" asp-action="Index">City</a>
+                        </li>
+                             <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Role" asp-action="Add">Add Role</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="power" asp-action="Index">Power</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Account" asp-action="AddAdmin">Add Admin</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="ShippingPrice" asp-action="Index">Shipping Price</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="ShippingTypes" asp-action="Index">Shipping Types</a>
+                        </li>
+                        }
+                       
+
                     </ul>
-                     <ul class="navbar-nav ">
-                         @if(User.Identity.IsAuthenticated){
-                              <li class="nav-item">
-                            <a class="nav-link text-dark" >Welcome @User.Identity.Name</a>
-                            </li>
-                              <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">LogOut</a>
+                </div>
+            </div>
+            <div class="sidebar-background"></div>
+        </div>
+
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-faded col-lg-10 offset-lg-2 col-md-12 col-sm-12">
+
+            <div class="container-fluid">
+                <span class="navbar-brand h5 my-auto">
+                    <img src="/app-assets/img/logo.png" width="30" height="30" class="d-inline-block align-text-top" /> Shipping System
+                </span>
+                
+                <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav ">
+                        
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                            <span class="nav-link">
+                                <img class="mx-1" src="https://img.icons8.com/ios-glyphs/30/000000/user-male-circle.png" />Welcome @User.Identity.Name
+                            </span>
+                        </li>
+
+                            <li class="nav-item">
+                            <a class="nav-link " asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>
                         }
                         else
@@ -74,27 +120,61 @@
                             </li>
                         }
 
-                        </ul>
+                    </ul>
                 </div>
             </div>
+
+
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Shopping - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="main-panel">
+            <div class="main-content">
+                <div class="">
+                    <div class="container">
+                        <section id="horizontal-form-layouts">
+                            <div class="container bg-white">
+                                @RenderBody()
+                            </div>
+
+
+
+                        </section>
+                        <!-- // Basic form layout section end -->
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer footer-static footer-light">
+                <p class="clearfix text-muted text-center px-2"><span>Copyright  © 2021 <a href="#" id="pixinventLink" target="_blank" class="text-bold-800 primary darken-2">Pioneer solutions </a>, All rights reserved. </span></p>
+            </footer>
+
         </div>
-    </footer>
+        <!-- BEGIN VENDOR JS-->
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+        <script src="/app-assets/vendors/js/core/jquery-3.3.1.min.js"></script>
+        <script src="/app-assets/vendors/js/core/popper.min.js"></script>
+        <script src="/app-assets/vendors/js/core/bootstrap.min.js"></script>
+        <script src="/app-assets/vendors/js/perfect-scrollbar.jquery.min.js"></script>
+        <script src="/app-assets/vendors/js/prism.min.js"></script>
+        <script src="/app-assets/vendors/js/jquery.matchHeight-min.js"></script>
+        <script src="/app-assets/vendors/js/screenfull.min.js"></script>
+        <script src="/app-assets/vendors/js/pace/pace.min.js"></script>
+        <script src="/app-assets/vendors/js/chartist.min.js"></script>
+        <script src="/app-assets/js/app-sidebar.js"></script>
+        <script src="/app-assets/js/notification-sidebar.js"></script>
+        <script src="/app-assets/js/customizer.js"></script>
+        <script src="/app-assets/js/dashboard-ecommerce.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+
+
+        
+
 </body>
 </html>

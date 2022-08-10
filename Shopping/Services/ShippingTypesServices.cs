@@ -26,13 +26,13 @@ namespace Shopping.Services
 
         public List<ShippingTypesDTO> GetAll()
         {
-            List<ShippingTypes> shippingTypes = dp.ShippingTypes.Include(s => s.Order).ToList();
+            List<ShippingTypes> shippingTypes = dp.ShippingTypes.ToList();
             return mapper.Map<List<ShippingTypesDTO>>(shippingTypes);
         }
 
         public ShippingTypesDTO GetById(Guid id)
         {
-           ShippingTypes shippingTypes=dp.ShippingTypes.Include(s=>s.Order).FirstOrDefault(s => s.Id == id);
+           ShippingTypes shippingTypes=dp.ShippingTypes.FirstOrDefault(s => s.Id == id);
             return mapper.Map<ShippingTypesDTO>(shippingTypes);
         }
 

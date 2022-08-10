@@ -1,0 +1,230 @@
+﻿@model Shopping.DTO.OrderDTO
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add order</h1>
+
+
+<hr />
+
+    
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+            <div hidden class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="clientphone1" class="control-label">رقم الهاتف</label>
+                <input asp-for="clientphone1" class="form-control" />
+                <span asp-validation-for="clientphone1" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="clientphone2" class="control-label">رقم الهاتف</label>
+                <input asp-for="clientphone2" class="form-control" />
+                <span asp-validation-for="clientphone2" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="Email" class="control-label">البريد الالكترونى</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="GovernmentId" class="control-label">المحافظه </label>
+                <select onchange="getCity(GovernmentId.value)" asp-for="GovernmentId" class="form-control" >
+                    @foreach (var item in @ViewBag.gov)
+                          {
+                              <option value="@item.Id">@item.Name</option>
+                          }
+                </select>
+                <span asp-validation-for="GovernmentId" class="text-danger"></span>
+            </div>
+
+              <div style="display:none" id="city"  class="form-group col-lg-4 p-4">
+                <label asp-for="cityId" class="control-label">المدينه</label>
+                <select onchange="City(cityId.value)" asp-for="cityId" id="SlelctCity" class="form-control">
+
+                </select>
+                <span asp-validation-for="cityId" class="text-danger"></span>
+            </div>
+          
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="Adress" class="control-label">العنوان</label>
+                <input asp-for="Adress" class="form-control" />
+                <span asp-validation-for="Adress" class="text-danger"></span>
+            </div>
+            
+        
+            
+            <div class="form-group col-lg-4 p-4">
+                <label asp-for="ShippingTypesId" class="control-label">نوع الشحن</label>
+                 <select asp-for="ShippingTypesId" class="form-control" >
+                    @foreach (var item in @ViewBag.ship)
+                          {
+                              <option value="@item.Id">@item.ShippingType</option>
+                          }
+                </select>
+                <span asp-validation-for="ShippingTypesId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check col-lg-4 p-4">
+                <label  style="margin: 28px;" class="form-check-label">
+                   التوصيل للقريه
+                </label>
+                 <input style="margin: 35px -12px;" class="form-check-input" asp-for="Tovillage" />
+                
+            </div>
+             <div id="frmItem">
+        <div class="modal-body">
+            <div class="row" for="sizes" >
+                @foreach (var item in @Model.Products)
+               {
+                <div class="col-4 p-3">
+                    <div class="form-group">
+                        <label   class="control-label">اسم المنتج </label>
+                        <input id="ProductName" asp-for="@item.ProductName" class="form-control" />
+                                       </div>
+                </div>
+                <div class="col-3 p-4" >
+                    <div class="form-group" style="margin: -11px;">
+                        <label  class="control-label"> وزن المنتج</label>
+                        <input id="ProductWeight"  asp-for="@item.ProductWeight"  type="number"  class="form-control" />
+                       
+                   </div>
+                </div>
+                <div class="col-2 p-4">
+                    <div class="form-group" style="margin: -11px;">
+                        <label  class="control-label">الكميه</label>
+                        <input id="Amount" asp-for="@item.Amount" type="number"   class="form-control" />
+                      
+                   </div>
+                </div>
+                }
+                <div class="col-3 p-4">
+                    <div class="form-group" style="margin-top: 17%;">
+                        <a  href="Javascript:void(0);" class="btn btn-success add-size">اضافه</a>
+                        <a  href="Javascript:void(0);" class="btn btn-success remove-size btn-danger">حذفٍ</a>
+                    </div>
+                </div>
+
+            </div>
+                </div>
+        </div>
+            
+</div>
+<div class="form-group">
+                <input type="button" onclick="save()" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   
+
+    <script type="text/javascript">
+    $(document).on('click', '.add-size', function(){
+        var size = $('div[for="sizes"]:first').clone();
+
+        size.find('.add-size').remove();
+        $('#frmItem .modal-body').append(size);
+    });
+
+    $(document).on('click', '.remove-size', function () {
+        $(this).closest('div[for="sizes"]').remove();
+    });
+    
+    </script>
+
+    <script>  
+        var CityId;
+         function City(id){
+             CityId=id;
+        
+    }
+   function save()
+    {
+         var products = [];
+       
+         
+            $("#frmItem .row").each(function () {
+                var row = $(this);
+                var product = {};
+                
+                product.productName = row.find("#ProductName").val();
+                product.productWeight = row.find("#ProductWeight").val();
+                product.amount = row.find("#Amount").val();
+                product.orderId=row.find("#Id").val();
+                products.push(product);
+            });
+              var order={
+                    id:$("#Id").val(),
+                    adress:$("#Adress").val(),
+                    clientphone1:$("#clientphone1").val(),
+                    clientphone2:$("#clientphone2").val(),
+                    Email:$("#Email").val(),
+                    governmentId:$("#GovernmentId").val(),
+                    ShippingTypesId:$("#ShippingTypesId").val(),
+                    cityId:CityId,
+                    Products:products
+         };
+         id=$("#Id").val(),
+            console.log(order);
+            console.log(id);
+
+          
+            $.ajax({
+                type: "POST",
+                url: "/Order/Edit",
+                data: { id:id,order:order},
+                success: function (r) {
+                     window.location.href = "http://localhost:30459/Order";
+                }
+            });
+    }
+    </script>
+
+}
+<script>
+   
+    function  getCity(GovernmentId){
+         
+            $("#city").css("display","block")
+            $.ajax({
+                type: "POST",
+                   url: "/City/GetCity",
+                    data: {id:GovernmentId},
+                  
+                   dataType: 'JSON',
+                    success:function(responce){
+                        console.log(responce)
+               
+                        var Cities=`
+                        <option disabled >Select City</option>
+                        `;
+                        
+                        for (i = 0; i < responce.length; i++) {
+                          Cities +=`
+                        <option  value="${responce[i].id}">${responce[i].cityName}</option>
+                        `
+                           } 
+                                                  console.log(Cities)
+
+                       document.getElementById("SlelctCity").innerHTML=Cities;
+                    },
+                     error: function (responce)
+                         {
+                        alert(responce);
+                    }
+});
+        }
+    </script>

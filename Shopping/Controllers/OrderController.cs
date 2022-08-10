@@ -84,7 +84,7 @@ namespace Shopping.Controllers
             var cityPrice = dp.cities.Where(x => x.Id == order.cityId).Select(x => x.price).FirstOrDefault();
             var weightPrice = 0;
             var ShippingPrices = dp.ShippingPrices.FirstOrDefault();
-
+            //var ShipingType = dp.ShippingTypes.FirstOrDefault();
             var weight =order.Products.Sum(x => (x.ProductWeight)*(x.Amount));
             if(weight > ShippingPrices.ToWeight)
             {
@@ -94,18 +94,21 @@ namespace Shopping.Controllers
 
             else
             {
-
+                weightPrice = ShippingPrices.Price;
             }
-           var Price = (decimal)shippingprice + (decimal)cityPrice + weightPrice;
+           var Price = (decimal)shippingprice + (decimal)cityPrice + weightPrice ;
             order.price = Price;
             servies.insert(order);
-                return RedirectToAction("Index");   
+            return RedirectToAction("Index");   
         }
         [Power(PermissionEnum.Edit)]
         public IActionResult Edit(Guid id)
         {
             var government = gover.GetAll();
             ViewBag.gov = government;
+
+            var shippingType = shipping.GetAll();
+            ViewBag.ship = shippingType;
             return View(servies.GetById(id));
         }
         [HttpPost]
@@ -113,7 +116,24 @@ namespace Shopping.Controllers
         {
             order.clientName = User.Identity.Name;
             order.States = Enums.states.Pending;
-           
+            var shippingprice = dp.ShippingTypes.Where(x => x.Id == order.ShippingTypesId).Select(x => x.price).FirstOrDefault();
+            var cityPrice = dp.cities.Where(x => x.Id == order.cityId).Select(x => x.price).FirstOrDefault();
+            var weightPrice = 0;
+            var ShippingPrices = dp.ShippingPrices.FirstOrDefault();
+            //var ShipingType = dp.ShippingTypes.FirstOrDefault();
+            var weight = order.Products.Sum(x => (x.ProductWeight) * (x.Amount));
+            if (weight > ShippingPrices.ToWeight)
+            {
+                var incrasingweight = weight - ShippingPrices.ToWeight;
+                weightPrice = (incrasingweight * ShippingPrices.extraPrice) + ShippingPrices.Price;
+            }
+
+            else
+            {
+                weightPrice = ShippingPrices.Price;
+            }
+            var Price = (decimal)shippingprice + (decimal)cityPrice + weightPrice;
+            order.price = Price;
             servies.update(id, order);
             return RedirectToAction("Index");
         }

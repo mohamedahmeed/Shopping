@@ -11,15 +11,7 @@ namespace Shopping.DTO
 {
     public class OrderDTO
     {
-       // private readonly Shipping dp;
-        //public OrderDTO()
-        //{
-
-        //}
-        //public OrderDTO(Shipping dp)
-        //{
-        //    this.dp = dp;
-        //}
+       
         public Guid Id { get; set; }
         public string clientName { get; set; }
        
@@ -42,24 +34,14 @@ namespace Shopping.DTO
         public virtual City city { get; set; }
         public Guid GovernmentId { get; set; }
 
-        //public virtual Government Government { get; set; }
+     
      
         public Guid ShippingTypesId { get; set; }
 
         public  ShippingTypes ShippingTypes { get; set; }
         public  decimal price { get; set; }
 
-        //public decimal Price
-        //{
-        //    get { return Price; }
-        //    set
-        //    {
-        //        var shippingprice=  dp.ShippingTypes.Where(x => x.Id == ShippingTypesId).Select(x => x.price).FirstOrDefault();
-        //        var cityPrice=  dp.cities.Where(x => x.Id == cityId).Select(x => x.price).FirstOrDefault();
-        //        var Price = (decimal)shippingprice + (decimal)cityPrice;
-        //        Price = value;
-        //    }
-        //}
+       
         public  List<Product> Products { get; set; }
     }
 }

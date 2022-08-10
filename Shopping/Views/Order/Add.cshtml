@@ -20,23 +20,23 @@
             </div>
             
             <div class="form-group col-lg-4 p-4">
-                <label asp-for="clientphone1" class="control-label"></label>
+                <label asp-for="clientphone1" class="control-label">رقم الهاتف</label>
                 <input asp-for="clientphone1" class="form-control" />
                 <span asp-validation-for="clientphone1" class="text-danger"></span>
             </div>
             <div class="form-group col-lg-4 p-4">
-                <label asp-for="clientphone2" class="control-label"></label>
+                <label asp-for="clientphone2" class="control-label">رقم الهاتف</label>
                 <input asp-for="clientphone2" class="form-control" />
                 <span asp-validation-for="clientphone2" class="text-danger"></span>
             </div>
             <div class="form-group col-lg-4 p-4">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label">البريد الالكترونى</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group col-lg-4 p-4">
-                <label asp-for="GovernmentId" class="control-label"></label>
-                <select onchange="getCity(GovernmentId.value)" asp-for=GovernmentId class="form-control" >
+                <label asp-for="GovernmentId" class="control-label">المحافظه </label>
+                <select onchange="getCity(GovernmentId.value)" asp-for="GovernmentId" class="form-control" >
                     @foreach (var item in @ViewBag.gov)
                           {
                               <option value="@item.Id">@item.Name</option>
@@ -45,20 +45,16 @@
                 <span asp-validation-for="GovernmentId" class="text-danger"></span>
             </div>
 
-              <div style="display:none" id="city" class="form-group col-lg-4 p-4">
-                <label asp-for="cityId" class="control-label"></label>
-                <select asp-for="cityId" class="form-control">
+              <div style="display:none" id="city"  class="form-group col-lg-4 p-4">
+                <label asp-for="cityId" class="control-label">المدينه</label>
+                <select onchange="City(cityId.value)" asp-for="cityId" id="SlelctCity" class="form-control">
 
                 </select>
                 <span asp-validation-for="cityId" class="text-danger"></span>
             </div>
-           @* <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>*@
+          
             <div class="form-group col-lg-4 p-4">
-                <label asp-for="Adress" class="control-label"></label>
+                <label asp-for="Adress" class="control-label">العنوان</label>
                 <input asp-for="Adress" class="form-control" />
                 <span asp-validation-for="Adress" class="text-danger"></span>
             </div>
@@ -88,20 +84,20 @@
 
                 <div class="col-4 p-3">
                     <div class="form-group">
-                        <label  class="control-label">Product Name</label>
+                        <label  class="control-label">اسم المنتج </label>
                         <input id="ProductName" class="form-control" />
                                        </div>
                 </div>
-                <div class="col-3 p-4">
-                    <div class="form-group">
-                        <label  class="control-label"> Product Weight</label>
+                <div class="col-3 p-4" >
+                    <div class="form-group" style="margin: -11px;">
+                        <label  class="control-label"> وزن المنتج</label>
                         <input id="ProductWeight" type="number"  class="form-control" />
                        
                    </div>
                 </div>
                 <div class="col-2 p-4">
-                    <div class="form-group">
-                        <label  class="control-label">Amount</label>
+                    <div class="form-group" style="margin: -11px;">
+                        <label  class="control-label">الكميه</label>
                         <input id="Amount" type="number"   class="form-control" />
                       
                    </div>
@@ -109,8 +105,8 @@
 
                 <div class="col-3 p-4">
                     <div class="form-group" style="margin-top: 17%;">
-                        <a href="Javascript:void(0);" class="btn btn-success add-size">Add</a>
-                        <a href="Javascript:void(0);" class="btn btn-success remove-size btn-danger">Remove</a>
+                        <a  href="Javascript:void(0);" class="btn btn-success add-size">اضافه</a>
+                        <a  href="Javascript:void(0);" class="btn btn-success remove-size btn-danger">حذفٍ</a>
                     </div>
                 </div>
 
@@ -149,7 +145,11 @@
     </script>
 
     <script>  
-
+        var CityId;
+         function City(id){
+             CityId=id;
+        
+    }
    function save()
     {
          var products = [];
@@ -173,21 +173,20 @@
                     Email:$("#Email").val(),
                     governmentId:$("#GovernmentId").val(),
                     ShippingTypesId:$("#ShippingTypesId").val(),
-                    cityId:"439F8E4A-FC2E-4B99-8B0F-08DA7385F22D",
-
-
-
+                    cityId:CityId,
                     Products:products
          };
 
             console.log(order);
+            console.log(CityId);
+
           
             $.ajax({
                 type: "POST",
                 url: "/Order/add",
                 data: { order:order},
                 success: function (r) {
-                    navigator.url("/product/index")
+                   window.location.href = "http://localhost:30459/Order";
                 }
             });
     }
@@ -195,8 +194,9 @@
 
 }
 <script>
+   
     function  getCity(GovernmentId){
-         alert(GovernmentId)
+         
             $("#city").css("display","block")
             $.ajax({
                 type: "POST",

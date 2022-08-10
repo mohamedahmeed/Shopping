@@ -7,9 +7,9 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Add">Create New</a>
+    <a class="btn btn-info" asp-action="Add">Create New</a>
 </p>
-<table class="table">
+<table id="myTable" class="table">
     <thead>
         <tr>
            
@@ -19,15 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.clientphone1)
             </th>
-           
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.Adress)
-            </th>
-            
+
             
             <th>
                 @Html.DisplayNameFor(model => model.city.cityName)
@@ -35,7 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.States)
             </th>
-          
             
             <th>
                 @Html.DisplayNameFor(model => model.price)
@@ -53,16 +44,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.clientphone1)
             </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Adress)
-            </td>
-           
-            
+          
             <td>
                 @Html.DisplayFor(modelItem => item.city.cityName)
             </td>
@@ -74,11 +56,25 @@
                 @Html.DisplayFor(modelItem => item.price)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @if (item.States == Shopping.Services.Enums.states.Pending)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new {  id=item.Id  })
+                       @Html.ActionLink("Details", "Details", new { id = item.Id },new{@class="mx-3"}) 
+                       @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    }
+                    else
+                    {                      
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) 
+                    }
+
             </td>
         </tr>
 }
     </tbody>
 </table>
+<script>
+    $(document).ready(function () {
+    $('#myTable').DataTable();
+} );
+</script>
+
